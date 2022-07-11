@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PhotoSearcher</string>
+    <string name="main_label">Main</string>
 </resources>
