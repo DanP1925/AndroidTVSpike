@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.photosearcher.data.Photo
 import com.example.photosearcher.data.Result
 import com.example.photosearcher.data.source.PhotoRepository
+import com.example.photosearcher.data.succeeded
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,10 +27,12 @@ class PhotoViewModel @Inject constructor(
 
     fun getPhotos() {
         _dataLoading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = photoRepository.getPhotos()
-            if (result is Result.Success) {
-                _photos.value = result.data
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val result = photoRepository.getPhotos()
+                if (result.succeeded){
+                    val resultPhotos = (result as Result.Success).data
+                }
             }
             _dataLoading.value = false
         }
