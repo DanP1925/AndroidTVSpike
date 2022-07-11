@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.photosearcher.R
 import com.example.photosearcher.data.Photo
 import com.example.photosearcher.databinding.FragmentPhotoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PhotoFragment : Fragment() {
 
     companion object {
