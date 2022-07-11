@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.photosearcher.EventObserver
 import com.example.photosearcher.data.Photo
 import com.example.photosearcher.databinding.FragmentPhotoBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,10 +54,18 @@ class PhotoFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.dataLoading.observe(viewLifecycleOwner, Observer(::observeDataLoading))
+        viewModel.photos.observe(viewLifecycleOwner, EventObserver(::observePhotos))
     }
 
     private fun observeDataLoading(isLoading: Boolean) {
         binding.progressbarPhoto.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun observePhotos(photos: List<Photo>) {
+        (binding.recyclerviewPhoto.adapter as PhotoAdapter).apply {
+            updateDataSet(photos.toMutableList())
+            notifyDataSetChanged()
+        }
     }
 
     override fun onDestroyView() {

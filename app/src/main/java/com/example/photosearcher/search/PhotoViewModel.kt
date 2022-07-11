@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.photosearcher.Event
 import com.example.photosearcher.data.Photo
 import com.example.photosearcher.data.Result
 import com.example.photosearcher.data.source.PhotoRepository
@@ -19,8 +20,8 @@ class PhotoViewModel @Inject constructor(
     private val photoRepository: PhotoRepository
 ) : ViewModel() {
 
-    private val _photos = MutableLiveData<List<Photo>>()
-    val photos: LiveData<List<Photo>> = _photos
+    private val _photos = MutableLiveData<Event<List<Photo>>>()
+    val photos: LiveData<Event<List<Photo>>> = _photos
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -28,11 +29,15 @@ class PhotoViewModel @Inject constructor(
     fun getPhotos() {
         _dataLoading.value = true
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            var resultPhotos = emptyList<Photo>()
+            withContext(Dispatchers.IO) {
                 val result = photoRepository.getPhotos()
-                if (result.succeeded){
-                    val resultPhotos = (result as Result.Success).data
+                if (result.succeeded) {
+                    resultPhotos = (result as Result.Success).data
                 }
+            }
+            if (resultPhotos.isNotEmpty()){
+                _photos.value = Event(resultPhotos)
             }
             _dataLoading.value = false
         }
