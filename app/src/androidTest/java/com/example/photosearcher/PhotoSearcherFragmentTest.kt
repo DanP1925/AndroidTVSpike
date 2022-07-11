@@ -33,7 +33,7 @@ class PhotoSearcherFragmentTest {
 
     @Test
     fun displayPhotos() {
-        repository.savePhoto(Photo("Title 1", "John Smith", "2022-06-03"))
+        repository.savePhoto(Photo("1","Title 1", "John Smith", "2022-06-03"))
         launchActivity()
         onView(withText("Title 1")).check(matches(isDisplayed()))
     }

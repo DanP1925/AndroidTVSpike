@@ -11,9 +11,9 @@ import org.junit.Test
 
 class DefaultPhotoRepositoryTest {
 
-    private val photo1 = Photo("Title 1", "Author 1", "2022-02-03")
-    private val photo2 = Photo("Title 2", "Author 2", "2022-03-04")
-    private val photo3 = Photo("Title 3", "Author 3", "2022-04-05")
+    private val photo1 = Photo("1", "Title 1", "Author 1", "2022-02-03")
+    private val photo2 = Photo("2", "Title 2", "Author 2", "2022-03-04")
+    private val photo3 = Photo("3", "Title 3", "Author 3", "2022-04-05")
     private val remotePhotos = listOf(photo1, photo2, photo3)
 
     private lateinit var photoRemoteDataSource: FakeDataSource
