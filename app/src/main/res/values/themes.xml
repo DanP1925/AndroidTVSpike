@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.PhotoSearcher" parent="@style/Theme.Leanback" />
+</resources>
