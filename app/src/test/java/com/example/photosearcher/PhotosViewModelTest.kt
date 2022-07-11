@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.photosearcher.data.Photo
 import com.example.photosearcher.data.source.FakeRepository
 import com.example.photosearcher.data.source.MainCoroutineRule
+import com.example.photosearcher.search.PhotoViewModel
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule

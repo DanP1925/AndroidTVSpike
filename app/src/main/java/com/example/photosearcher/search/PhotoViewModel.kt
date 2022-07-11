@@ -1,4 +1,4 @@
-package com.example.photosearcher
+package com.example.photosearcher.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

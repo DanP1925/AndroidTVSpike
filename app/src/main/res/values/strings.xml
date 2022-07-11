@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">PhotoSearcher</string>
-    <string name="main_label">Main</string>
+    <string name="activity_main_label">Main</string>
+    <string name="fragment_photo_title">Photo Search</string>
+    <string name="fragment_photo_description">Trending Now on Flickr</string>
 </resources>
