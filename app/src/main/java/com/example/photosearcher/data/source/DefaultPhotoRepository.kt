@@ -15,7 +15,7 @@ class DefaultPhotoRepository @Inject constructor(
     }
 
     override suspend fun getPhotos(): Result<List<Photo>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getPhotos()
     }
 
 }
