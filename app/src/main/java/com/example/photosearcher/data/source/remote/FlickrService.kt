@@ -12,7 +12,8 @@ interface FlickrService {
         @Query("api_key") ak: String,
         @Query("tags") tags: String,
         @Query("text") text: String?,
-        @Query("format") format:String?,
+        @Query("per_page") perPage: Int,
+        @Query("format") format: String,
         @Query("nojsoncallback") noJsonCallback: Int
     ): Response<GetPhotosResponse>
 

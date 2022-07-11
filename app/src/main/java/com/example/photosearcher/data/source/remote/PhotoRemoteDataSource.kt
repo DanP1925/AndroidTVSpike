@@ -19,6 +19,7 @@ class PhotoRemoteDataSource @Inject constructor(
         const val TAG = "cat"
         const val FORMAT = "json"
         const val NOJSONCALLBACK = 1
+        const val PERPAGE = 20
     }
 
     private fun decodeAK(): String {
@@ -33,7 +34,8 @@ class PhotoRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getPhotos(): Result<List<Photo>> {
-        val response = flickrService.getPhotos(METHOD, decodeAK(), TAG, "", FORMAT, NOJSONCALLBACK)
+        val response =
+            flickrService.getPhotos(METHOD, decodeAK(), TAG, "", PERPAGE, FORMAT, NOJSONCALLBACK)
         return if (response.isSuccessful) {
             val photos = response.body()?.photosResponse?.photos?.map {
                 Photo(it.id)
