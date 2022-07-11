@@ -30,14 +30,23 @@ class PhotoViewModel @Inject constructor(
         _dataLoading.value = true
         viewModelScope.launch {
             var resultPhotos = emptyList<Photo>()
+            var finalPhotos = emptyList<Photo>()
             withContext(Dispatchers.IO) {
                 val result = photoRepository.getPhotos()
                 if (result.succeeded) {
                     resultPhotos = (result as Result.Success).data
+                    finalPhotos = resultPhotos.map {
+                        val resultGetPhoto = photoRepository.getPhoto(it.id)
+                        if (resultGetPhoto.succeeded) {
+                            (resultGetPhoto as Result.Success).data
+                        } else {
+                            it
+                        }
+                    }
                 }
             }
-            if (resultPhotos.isNotEmpty()){
-                _photos.value = Event(resultPhotos)
+            if (resultPhotos.isNotEmpty()) {
+                _photos.value = Event(finalPhotos)
             }
             _dataLoading.value = false
         }

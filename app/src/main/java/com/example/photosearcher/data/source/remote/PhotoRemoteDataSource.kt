@@ -11,15 +11,16 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 
 class PhotoRemoteDataSource @Inject constructor(
-    val flickrService: FlickrService
+    private val flickrService: FlickrService
 ) : PhotoDataSource {
 
     companion object {
-        const val METHOD = "flickr.photos.search"
+        const val GET_PHOTOS_METHOD = "flickr.photos.search"
+        const val GET_PHOTO_METHOD = "flickr.photos.getInfo"
         const val TAG = "cat"
         const val FORMAT = "json"
-        const val NOJSONCALLBACK = 1
-        const val PERPAGE = 20
+        const val NO_JSON_CALLBACK = 1
+        const val PER_PAGE = 20
     }
 
     private fun decodeAK(): String {
@@ -35,7 +36,15 @@ class PhotoRemoteDataSource @Inject constructor(
 
     override suspend fun getPhotos(): Result<List<Photo>> {
         val response =
-            flickrService.getPhotos(METHOD, decodeAK(), TAG, "", PERPAGE, FORMAT, NOJSONCALLBACK)
+            flickrService.getPhotos(
+                GET_PHOTOS_METHOD,
+                decodeAK(),
+                TAG,
+                "",
+                PER_PAGE,
+                FORMAT,
+                NO_JSON_CALLBACK
+            )
         return if (response.isSuccessful) {
             val photos = response.body()?.photosResponse?.photos?.map {
                 Photo(it.id)
@@ -45,6 +54,29 @@ class PhotoRemoteDataSource @Inject constructor(
             } else {
                 Result.Error(Exception("Not found"))
             }
+        } else {
+            Result.Error(Exception(response.errorBody().toString()))
+        }
+    }
+
+    override suspend fun getPhoto(photoId: String): Result<Photo> {
+        val response = flickrService.getPhotoDetail(
+            GET_PHOTO_METHOD, decodeAK(), photoId, FORMAT, NO_JSON_CALLBACK
+        )
+        return if (response.isSuccessful) {
+            val photo = response.body()?.photoDetailResponse
+            if (photo == null) {
+                Result.Error(Exception("Not found"))
+            }
+            return Result.Success(
+                Photo(
+                    photoId,
+                    photo?.title?.title,
+                    photo?.owner?.username,
+                    photo?.dates?.publishedTimeStamp,
+                    photo?.url?.url?.first()?.url
+                )
+            )
         } else {
             Result.Error(Exception(response.errorBody().toString()))
         }

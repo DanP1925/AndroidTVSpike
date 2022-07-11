@@ -17,4 +17,14 @@ interface FlickrService {
         @Query("nojsoncallback") noJsonCallback: Int
     ): Response<GetPhotosResponse>
 
+    @GET("services/rest/")
+    suspend fun getPhotoDetail(
+        @Query("method") method: String,
+        @Query("api_key") ak: String,
+        @Query("photo_id") photoId: String,
+        @Query("format") format: String,
+        @Query("nojsoncallback") noJsonCallback: Int
+    ): Response<GetPhotoDetailResponse>
+
+
 }

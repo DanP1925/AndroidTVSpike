@@ -4,5 +4,6 @@ data class Photo(
     val id: String,
     val title: String? = "",
     val author: String? = "",
-    val datePublished: String? = ""
+    val datePublished: String? = "",
+    val urlImage: String? = ""
 )
