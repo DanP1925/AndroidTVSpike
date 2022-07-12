@@ -3,7 +3,6 @@ package com.example.photosearcher.search
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photosearcher.R
@@ -11,8 +10,9 @@ import com.example.photosearcher.data.Photo
 import com.example.photosearcher.databinding.ItemPhotoBinding
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.flow.callbackFlow
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PhotoAdapter(private var dataSet: MutableList<Photo>) :
     RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
@@ -50,10 +50,15 @@ class PhotoAdapter(private var dataSet: MutableList<Photo>) :
                 })
 
             binding.textviewPhotoTitle.text = item.title
-            //val sdf = java.text.SimpleDateFormat("MMM dd yyyy")
-            //val date = java.util.Date(item.datePublished)
-            //val dateFormatted = sdf.format(date)
-            binding.textviewPhotoDescription.text = item.author + " "
+            binding.textviewPhotoDescription.text =
+                item.author + " " + item.datePublished?.let { getShortDate(it) }
+        }
+
+        private fun getShortDate(datePublished: String): String {
+            val originalFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+            val targetFormat = SimpleDateFormat("MMM dd yyyy")
+            val date: Date = originalFormat.parse(datePublished)
+            return targetFormat.format(date)
         }
 
     }
