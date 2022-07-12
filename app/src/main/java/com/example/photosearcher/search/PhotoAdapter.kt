@@ -55,6 +55,19 @@ class PhotoAdapter(private var dataSet: MutableList<Photo>) :
             binding.textviewPhotoDescription.text =
                 item.author + " " + item.datePublished?.let { getShortDate(it) }
 
+
+            binding.root.setOnFocusChangeListener(object : View.OnFocusChangeListener {
+                override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                    if (hasFocus) {
+                        binding.textviewPhotoTitle.typeface = Typeface.DEFAULT_BOLD
+                        binding.textviewPhotoDescription.typeface = Typeface.DEFAULT_BOLD
+                    } else {
+                        binding.textviewPhotoTitle.typeface = Typeface.DEFAULT
+                        binding.textviewPhotoDescription.typeface = Typeface.DEFAULT
+                    }
+                }
+
+            })
         }
 
         private fun getShortDate(datePublished: String): String {

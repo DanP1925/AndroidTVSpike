@@ -57,15 +57,16 @@ class PhotoFragment : Fragment() {
         adapter = PhotoAdapter(emptyList<Photo>().toMutableList())
     }
 
-    private fun setupSearchButton() {
-        binding.buttonPhoto.requestFocus()
-        binding.buttonPhoto.setOnClickListener {
+    private fun setupSearchButton() = with(binding.buttonPhoto) {
+        requestFocus()
+        setOnClickListener {
             binding.edittextPhotoQuery.requestFocus()
         }
+        nextFocusDownId = binding.recyclerviewPhoto.id
     }
 
-    private fun setupEditText() {
-        binding.edittextPhotoQuery.setOnEditorActionListener(object :
+    private fun setupEditText() = with(binding.edittextPhotoQuery) {
+        setOnEditorActionListener(object :
             TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -77,6 +78,7 @@ class PhotoFragment : Fragment() {
                 return false;
             }
         })
+        nextFocusDownId = binding.recyclerviewPhoto.id
     }
 
     private fun setupObservers() {
