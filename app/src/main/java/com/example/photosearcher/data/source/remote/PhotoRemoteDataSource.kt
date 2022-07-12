@@ -74,7 +74,7 @@ class PhotoRemoteDataSource @Inject constructor(
                     photo?.title?.title,
                     photo?.owner?.username,
                     photo?.dates?.publishedTimeStamp,
-                    photo?.url?.url?.first()?.url
+                    """https://live.staticflickr.com/${photo?.server}/${photo?.id}_${photo?.secret}_z.jpg"""
                 )
             )
         } else {
