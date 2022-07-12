@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -44,12 +45,17 @@ class PhotoFragment : Fragment() {
 
     private fun setupUi() {
         setupRecyclerView()
+        setupSearchButton()
     }
 
     private fun setupRecyclerView() = with(binding.recyclerviewPhoto) {
         layoutManager =
             StaggeredGridLayoutManager(NUMBER_OF_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
         adapter = PhotoAdapter(emptyList<Photo>().toMutableList())
+    }
+
+    private fun setupSearchButton() {
+        binding.buttonPhoto.requestFocus()
     }
 
     private fun setupObservers() {

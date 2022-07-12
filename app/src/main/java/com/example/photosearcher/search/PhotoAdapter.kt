@@ -1,8 +1,10 @@
 package com.example.photosearcher.search
 
 import android.content.res.Resources
+import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photosearcher.R
@@ -52,6 +54,7 @@ class PhotoAdapter(private var dataSet: MutableList<Photo>) :
             binding.textviewPhotoTitle.text = item.title
             binding.textviewPhotoDescription.text =
                 item.author + " " + item.datePublished?.let { getShortDate(it) }
+
         }
 
         private fun getShortDate(datePublished: String): String {

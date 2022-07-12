@@ -21,7 +21,7 @@
         android:id="@+id/button_photo"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/bg_photo_search"
+        android:background="@drawable/bg_photo_search_focusable"
         android:padding="8dp"
         android:src="@drawable/ic_search"
         app:layout_constraintLeft_toLeftOf="parent"
