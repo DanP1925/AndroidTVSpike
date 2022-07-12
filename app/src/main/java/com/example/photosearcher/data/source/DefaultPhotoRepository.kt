@@ -18,6 +18,10 @@ class DefaultPhotoRepository @Inject constructor(
         return remoteDataSource.getPhotos()
     }
 
+    override suspend fun getPhotosWithQuery(query: String): Result<List<Photo>> {
+        return remoteDataSource.getPhotosWithQuery(query)
+    }
+
     override suspend fun getPhoto(photoId: String): Result<Photo> {
         return remoteDataSource.getPhoto(photoId)
     }

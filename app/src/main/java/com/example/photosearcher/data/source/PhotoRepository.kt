@@ -9,6 +9,8 @@ interface PhotoRepository {
 
     suspend fun getPhotos(): Result<List<Photo>>
 
+    suspend fun getPhotosWithQuery(query: String): Result<List<Photo>>
+
     suspend fun getPhoto(photoId: String): Result<Photo>
 
 }

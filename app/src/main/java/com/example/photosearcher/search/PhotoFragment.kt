@@ -1,10 +1,12 @@
 package com.example.photosearcher.search
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -46,6 +48,7 @@ class PhotoFragment : Fragment() {
     private fun setupUi() {
         setupRecyclerView()
         setupSearchButton()
+        setupEditText()
     }
 
     private fun setupRecyclerView() = with(binding.recyclerviewPhoto) {
@@ -56,6 +59,24 @@ class PhotoFragment : Fragment() {
 
     private fun setupSearchButton() {
         binding.buttonPhoto.requestFocus()
+        binding.buttonPhoto.setOnClickListener {
+            binding.edittextPhotoQuery.requestFocus()
+        }
+    }
+
+    private fun setupEditText() {
+        binding.edittextPhotoQuery.setOnEditorActionListener(object :
+            TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (v != null) {
+                        viewModel.searchImages(v.text.toString());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        })
     }
 
     private fun setupObservers() {

@@ -59,6 +59,31 @@ class PhotoRemoteDataSource @Inject constructor(
         }
     }
 
+    override suspend fun getPhotosWithQuery(query: String): Result<List<Photo>> {
+        val response =
+            flickrService.getPhotos(
+                GET_PHOTOS_METHOD,
+                decodeAK(),
+                TAG,
+                query,
+                PER_PAGE,
+                FORMAT,
+                NO_JSON_CALLBACK
+            )
+        return if (response.isSuccessful) {
+            val photos = response.body()?.photosResponse?.photos?.map {
+                Photo(it.id)
+            }
+            if (photos != null) {
+                Result.Success(photos)
+            } else {
+                Result.Error(Exception("Not found"))
+            }
+        } else {
+            Result.Error(Exception(response.errorBody().toString()))
+        }
+    }
+
     override suspend fun getPhoto(photoId: String): Result<Photo> {
         val response = flickrService.getPhotoDetail(
             GET_PHOTO_METHOD, decodeAK(), photoId, FORMAT, NO_JSON_CALLBACK
